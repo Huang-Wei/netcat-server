@@ -1,0 +1,17 @@
+sudo: required
+
+services:
+- docker
+
+env:
+- DOCKER_REPO=hweicdl/netcat
+
+script:
+- if [[ $TRAVIS_TAG = $TRAVIS_BRANCH ]]; then docker build -t ${DOCKER_REPO}-tcp:$TRAVIS_TAG -f Dockerfile_TCP .; docker build -t ${DOCKER_REPO}-udp:$TRAVIS_TAG -f Dockerfile_TCP .; else true ; fi
+
+after_success:
+- docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+- if [[ $$TRAVIS_TAG = $TRAVIS_BRANCH ]]; then docker push ${DOCKER_REPO}-tcp:$TRAVIS_TAG -f Dockerfile_TCP .; docker push ${DOCKER_REPO}-udp:$TRAVIS_TAG -f Dockerfile_TCP .; else true ; fi
+
+notifications:
+  email: false
