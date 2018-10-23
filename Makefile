@@ -1,6 +1,6 @@
 all: build
 
-build: init
+build:
 	docker build -t hweicdl/netcat-tcp:$(TAG) -f Dockerfile_TCP .
 	docker build -t hweicdl/netcat-ucp:$(TAG) -f Dockerfile_UDP .
 

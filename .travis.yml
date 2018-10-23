@@ -9,13 +9,8 @@ branches:
   only:
   - /^v.*$/
 
-env:
-- DOCKER_REPO=hweicdl/netcat
-
 script:
-- if [[ $TRAVIS_TAG = $TRAVIS_BRANCH ]]; then docker build -t ${DOCKER_REPO}-tcp:$TRAVIS_TAG -f Dockerfile_TCP .; docker build -t ${DOCKER_REPO}-udp:$TRAVIS_TAG -f Dockerfile_TCP .; fi 
-- if [[ $TRAVIS_TAG = $TRAVIS_BRANCH ]]; then docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}; fi
-- if [[ $$TRAVIS_TAG = $TRAVIS_BRANCH ]]; then docker push ${DOCKER_REPO}-tcp:$TRAVIS_TAG; docker push ${DOCKER_REPO}-udp:$TRAVIS_TAG; fi
+- if [[ $TRAVIS_TAG = $TRAVIS_BRANCH ]]; then make push TAG=$TRAVIS_TAG; fi
 
 notifications:
   email: false
